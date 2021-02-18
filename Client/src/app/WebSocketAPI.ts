@@ -2,17 +2,23 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
 export class WebSocketAPI {
-    webSocketEndPoint: string = 'http://localhost:8080/ws';
-    topic: string = "/topic/public";
+    webSocketEndPoint: string = 'http://localhost:8081/ws';
+    topic: string = "/topic/group";
     stompClient: any;
     
-    list:any = [
+    listTopic1:any = [
 
         // {
         //     "message":""
         // },
     ]
+    listTopic2:any = [
 
+        // {
+        //     "message":""
+        // },
+    ]
+    actualTopic: string = "topic1"
     _connect() {
         console.log("Initialize WebSocket Connection");
         let ws = new SockJS(this.webSocketEndPoint);
@@ -47,14 +53,25 @@ export class WebSocketAPI {
   * Send message to sever via web socket
   * @param {*} message 
   */
-    _send(message) {
-        console.log("calling logout api via web socket");
-        this.stompClient.send("/app/sendMessage", {}, message); //Json.Stringify(message)
-    }
+    // _send(message) {
+    //     console.log("calling logout api via web socket");
+    //     console.log("----",message);
+        
+    //     this.stompClient.send("/app/sendMessage", {}); //Json.Stringify(message)
+    // }
 
     onMessageReceived(message) {
-        console.log("Message Recieved from Server :: ", message.body);
-        this.list.push(message.body);
+        console.log("--: TOPIC SELECETED: "+ this.actualTopic);
+        
+        console.log("Message Recieved from Kafka :: ", message.body);
+        //if(this.actualTopic == "topic1")
+        //{
+            this.listTopic1.push(message.body);
+        //}
+        // else
+        // {
+        //     this.listTopic2.push(message.body);
+        // }
         //this.appComponent.handleMessage(JSON.stringify(message.body));
     }
 }

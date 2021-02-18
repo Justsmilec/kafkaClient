@@ -1,38 +1,43 @@
 <div id="main-content" class="container">
 
-    <div class="row">
-        <div class="col-md-12">
-           {{ greeting }}
+    <div class="leftcontainer">
+        <div class="row">
+            <div class="col-md-12">
+               {{ greeting }}
+            </div>
         </div>
-    </div>
+        
+      <div class="row">
+          <div class="col-md-6">
+              <form class="form-inline">
+                  <div class="form-group">
+                      <label for="connect">WebSocket connection:</label>
+                      <button (click)="connect()" class="btn btn-default" type="submit">Connect</button>
+                      
+                  </div>
+              </form>
+          </div>
+          <div class="col-md-6">
+              <form class="form-inline">
+                  
+                  <button (click)="consumeTopic($event)" name = "topic1" class="btn btn-default" type="submit">Topic 1</button>
     
-  <div class="row">
-      <div class="col-md-6">
-          <form class="form-inline">
-              <div class="form-group">
-                  <label for="connect">WebSocket connection:</label>
-                  <button (click)="connect()" class="btn btn-default" type="submit">Connect</button>
-                  <button (click)="disconnect()" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                  </button>
-              </div>
-          </form>
+                  <button (click)="consumeTopic($event)" name = "topic2" class="btn btn-default" type="submit">Topic 2</button>
+              </form>
+          </div>
+    
+         
+            
+        
       </div>
-      <div class="col-md-6">
-          <form class="form-inline">
-              <div class="form-group">
-                  <label for="name">What is your name?</label>
-                  <input type="text" [(ngModel)]="name" class="form-control" name="name"> <br>
-              </div>
-              <button (click)="sendMessage()" class="btn btn-default" type="submit">Send</button>
-          </form>
-      </div>
+    </div>
 
-     
-          <ul>
+
+    <div class="rightcontainer">
+        <ul>
             <li *ngFor="let listIndex of list">
               {{listIndex}}
             </li>
         </ul>
-    
-  </div>
+    </div>
 </div>

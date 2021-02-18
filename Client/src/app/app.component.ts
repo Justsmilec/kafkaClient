@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { WebSocketAPI } from './WebSocketAPI';
 
@@ -20,9 +21,17 @@ export class AppComponent {
     "sdfsdf",
     "sdfsdf",
   ]
+
+  object:any = [
+    {
+      "content":"Adem",
+      "path":"sadas",
+      "rowNr":1
+    }
+  ]
   
   
-  constructor(websocket : WebSocketAPI)
+  constructor(websocket : WebSocketAPI,private httpRequest: HttpClient)
   {
       this.webSocketAPI = websocket;
   }
@@ -43,17 +52,32 @@ export class AppComponent {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(x);
-      }, 100);
+      }, 400);
     });
   }
-  sendMessage(){
-    this.webSocketAPI._send(this.name);
+  consumeTopic(topicname){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+       // 'Authorization': this.jwt
+      })
+    };
+    const data = new FormData();
+    data.append("topicname",topicname.target.name);
+    this.httpRequest.post<any>('http://localhost:8081/test/insert',data,httpOptions).subscribe((res) => {
+      console.log(res);
+     });;
+    //this.webSocketAPI._send(this.object);
+    console.log("!!--- ", topicname.target.name);
+    this.webSocketAPI.actualTopic = topicname.target.name;
     this.resolveAfter2Seconds(20).then(value => {
-      this.list = this.webSocketAPI.list;
+      this.list = this.webSocketAPI.listTopic1;
       console.log("Message From me: ",this.list[0]);
       
     }) 
   }
+
+  
 
   // handleMessage(message){
   //   this.greeting = message;
